@@ -211,12 +211,12 @@ if st.session_state.page == "task1":
 
         shipper_company_name = st.selectbox(
             "Shipper Company",
-            ['DB Schenker', 'FedEx', 'DHL', 'Maersk']
+            ['DB Schenker', 'FedEx', 'DHL', 'Maersk','Blue Dart','Aramex','UPS']
         )
 
         consignee_name = st.selectbox(
             "Consignee Name",
-            ['Gulf Fresh Foods', 'Al Jazeera Trading']
+            ['Gulf Fresh Foods', 'Al Jazeera Trading','Jeddah Electronics','Arabian Medical Supply','Desert Logistics','Red Sea Imports']
         )
 
     # =====================================================
@@ -239,12 +239,12 @@ if st.session_state.page == "task1":
 
         security_screening_status = st.selectbox(
             "Security Screening Status",
-            ['Cleared', 'Pending', 'Failed']
+            ['Cleared', 'Pending', 'Failed','Manual Inspection Required']
         )
 
         xray_scan_result = st.selectbox(
             "X-Ray Scan Result",
-            ['Clear', 'Suspicious']
+            ['Clear', 'Suspicious','','Restricted Item Detected','Manual Review Required']
         )
 
         shipment_priority = st.selectbox(
