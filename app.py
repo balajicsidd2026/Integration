@@ -333,6 +333,11 @@ if st.session_state.page == "task1":
 
         st.progress(float(prediction_prob))
 
+        st.metric(
+            "Probability of Rejection",
+            f"{prediction_prob:.2%}"
+        
+
         # =================================================
         # SHAP FEATURE IMPORTANCE
         # =================================================
