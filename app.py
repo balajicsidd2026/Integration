@@ -4,7 +4,6 @@ import numpy as np
 import shap
 import joblib
 from catboost import Pool
-from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -13,8 +12,7 @@ import plotly.express as px
 # =========================================================
 
 st.set_page_config(
-    page_title="AI Cargo Intelligence",
-    page_icon="✈️",
+    page_title="Cargo Operations",
     layout="wide"
 )
 
@@ -55,8 +53,11 @@ st.markdown("""
 }
 
 .block-container {
-    padding-top: 4rem;
-    padding-bottom: 2rem;
+    padding-top: 0.8rem;
+    padding-bottom: 1rem;
+    max-width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
 }
 
 header {
@@ -67,87 +68,167 @@ header {
     display: none;
 }
 
-.logo-title {
-    font-size: 42px;
+/* =====================================================
+REMOVE UNNECESSARY GAPS
+===================================================== */
+
+div[data-testid="stVerticalBlock"] > div:has(.element-container) {
+    gap: 0.4rem;
+}
+
+.element-container {
+    margin-bottom: 0.2rem !important;
+}
+
+.stMarkdown {
+    margin-bottom: 0rem !important;
+}
+
+hr {
+    margin-top: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* =====================================================
+TITLE
+===================================================== */
+
+.main-title {
+    font-size: 64px;
     font-weight: 800;
     color: #0b1f5e;
+    text-align: center;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
 }
 
-.logo-subtitle {
-    color: #5d6472;
-    font-size: 18px;
-    margin-top: -10px;
+/* =====================================================
+BUTTONS
+===================================================== */
+
+div.stButton > button {
+    width: 100%;
+    height: 82px;
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(
+        135deg,
+        #0b2e8a 0%,
+        #1240bd 100%
+    );
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 16px rgba(0,0,0,0.10);
 }
+
+div.stButton > button:hover {
+    background: linear-gradient(
+        135deg,
+        #1240bd 0%,
+        #2457e0 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 22px rgba(18,64,189,0.22);
+    color: white;
+}
+
+/* =====================================================
+HEADINGS
+===================================================== */
 
 .main-heading {
-    font-size: 48px;
-    font-weight: 700;
+    font-size: 44px;
+    font-weight: 800;
     color: #0b1f5e;
+    margin-top: 0.4rem;
+    margin-bottom: 0.2rem;
 }
 
 .sub-heading {
     font-size: 18px;
-    color: #666;
-    margin-bottom: 30px;
+    color: #5d6472;
+    margin-bottom: 0.6rem;
 }
 
 .section-title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: #0b1f5e;
-    margin-bottom: 20px;
+    margin-top: 0.2rem;
+    margin-bottom: 0.6rem;
 }
 
-div.stButton > button {
-    width: 100%;
-    height: 60px;
-    border-radius: 14px;
-    border: none;
-    font-size: 18px;
-    font-weight: 600;
-    background: #0b2e8a;
-    color: white;
-}
-
-div.stButton > button:hover {
-    background: #1240bd;
-    color: white;
-}
+/* =====================================================
+INPUTS
+===================================================== */
 
 .stSelectbox div[data-baseweb="select"],
 .stNumberInput input {
     border-radius: 12px !important;
 }
 
-hr {
-    margin-top: 30px;
-    margin-bottom: 30px;
+/* =====================================================
+REMOVE PLOTLY TOOLBAR
+===================================================== */
+
+.modebar {
+    display: none !important;
+}
+
+/* =====================================================
+METRICS SPACING
+===================================================== */
+
+div[data-testid="metric-container"] {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
+/* =====================================================
+FORM SPACING
+===================================================== */
+
+div[data-testid="stForm"] {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # =========================================================
-# NAVBAR
+# TITLE
 # =========================================================
 
-nav1, nav2, nav3 = st.columns([6, 2, 2])
+st.markdown("""
+<div class='main-title'>
+Cargo Operations
+</div>
+""", unsafe_allow_html=True)
 
-with nav1:
-    st.markdown("""
-    <div>
-        <div class='logo-title'>✈️ AI Cargo Intelligence</div>
-        <div class='logo-subtitle'>Smart Predictions. Safer Deliveries.</div>
-    </div>
-    """, unsafe_allow_html=True)
+# =========================================================
+# NAVIGATION BUTTONS
+# =========================================================
 
-with nav2:
-    if st.button("📦 Task 1 Cargo Rejection"):
+col1, col2 = st.columns(2, gap="small")
+
+with col1:
+    if st.button(
+        "Cargo Acceptance Rejection Forecasting",
+        use_container_width=True
+    ):
         st.session_state.page = "task1"
 
-with nav3:
-    if st.button("🛡️ Task 2 DG Prediction"):
+with col2:
+    if st.button(
+        "Dangerous Goods Incident Prediction",
+        use_container_width=True
+    ):
         st.session_state.page = "task2"
+
+st.markdown("<hr>", unsafe_allow_html=True)
 
 # =========================================================
 # TASK 1
@@ -157,7 +238,7 @@ if st.session_state.page == "task1":
 
     st.markdown("""
     <div class='main-heading'>
-    📦 Cargo Acceptance Rejection Forecasting
+    Cargo Acceptance Rejection Forecasting
     </div>
 
     <div class='sub-heading'>
@@ -167,15 +248,14 @@ if st.session_state.page == "task1":
 
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-
-    # =====================================================
-    # LEFT COLUMN
-    # =====================================================
+    col1, col2, col3 = st.columns(3, gap="medium")
 
     with col1:
 
-        st.markdown("<div class='section-title'>Shipment Information</div>", unsafe_allow_html=True)
+        st.markdown(
+            "<div class='section-title'>Shipment Information</div>",
+            unsafe_allow_html=True
+        )
 
         shipment_date = st.date_input("Shipment Date")
 
@@ -198,7 +278,17 @@ if st.session_state.page == "task1":
             "Destination",
             ['JED']
         )
-
+        
+        cargo_weight_kg = st.number_input(
+            "Cargo Weight (kg)",
+            min_value=0.0,
+            value=100.0
+        )
+    with col2:
+        st.markdown(
+            "<div class='section-title'>Packaging Information</div>",
+            unsafe_allow_html=True
+        )
         packaging_condition = st.selectbox(
             "Packaging Condition",
             ['Good', 'Average', 'Damaged']
@@ -211,27 +301,31 @@ if st.session_state.page == "task1":
 
         shipper_company_name = st.selectbox(
             "Shipper Company",
-            ['DB Schenker', 'FedEx', 'DHL', 'Maersk','Blue Dart','Aramex','UPS']
+            ['DB Schenker', 'FedEx', 'DHL', 'Maersk']
         )
 
         consignee_name = st.selectbox(
             "Consignee Name",
-            ['Gulf Fresh Foods', 'Al Jazeera Trading','Jeddah Electronics','Arabian Medical Supply','Desert Logistics','Red Sea Imports']
+            ['Gulf Fresh Foods', 'Al Jazeera Trading']
         )
-
-    # =====================================================
-    # RIGHT COLUMN
-    # =====================================================
-
-    with col2:
-
-        st.markdown("<div class='section-title'>Compliance & Security</div>", unsafe_allow_html=True)
 
         shipper_type = st.selectbox(
             "Shipper Type",
             ['Corporate', 'Retail', 'Agent']
         )
+        damage_history_count = st.number_input(
+            "Damage History Count",
+            min_value=0,
+            value=0
+        )
+        
+    with col3:
 
+        st.markdown(
+            "<div class='section-title'>Compliance & Security</div>",
+            unsafe_allow_html=True
+        )
+        
         documentation_status = st.selectbox(
             "Documentation Status",
             ['Complete', 'Pending', 'Missing']
@@ -239,12 +333,12 @@ if st.session_state.page == "task1":
 
         security_screening_status = st.selectbox(
             "Security Screening Status",
-            ['Cleared', 'Pending', 'Failed','Manual Inspection Required']
+            ['Cleared', 'Pending', 'Failed']
         )
 
         xray_scan_result = st.selectbox(
             "X-Ray Scan Result",
-            ['Clear', 'Suspicious','Restricted Item Detected','Manual Review Required']
+            ['Clear', 'Suspicious']
         )
 
         shipment_priority = st.selectbox(
@@ -252,17 +346,6 @@ if st.session_state.page == "task1":
             ['Normal', 'Express', 'VIP']
         )
 
-        cargo_weight_kg = st.number_input(
-            "Cargo Weight (kg)",
-            min_value=0.0,
-            value=100.0
-        )
-
-        damage_history_count = st.number_input(
-            "Damage History Count",
-            min_value=0,
-            value=0
-        )
 
         compliance_violation_count = st.number_input(
             "Compliance Violation Count",
@@ -277,13 +360,12 @@ if st.session_state.page == "task1":
             value=80
         )
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:0.5rem'></div>", unsafe_allow_html=True)
 
-    # =====================================================
-    # TASK 1 PREDICTION
-    # =====================================================
-
-    if st.button("🔍 Predict Cargo Status"):
+    if st.button(
+        "Predict Cargo Status",
+        use_container_width=True
+    ):
 
         month = shipment_date.month
         day = shipment_date.day
@@ -315,21 +397,25 @@ if st.session_state.page == "task1":
             'is_weekend': [is_weekend]
         })
 
-        cat_features = input_data.select_dtypes(include=['object']).columns.tolist()
+        cat_features = input_data.select_dtypes(
+            include=['object']
+        ).columns.tolist()
 
         for col in cat_features:
             input_data[col] = input_data[col].astype(str)
 
-        prediction_prob = cargo_model.predict_proba(input_data)[:, 1][0]
+        prediction_prob = cargo_model.predict_proba(
+            input_data
+        )[:, 1][0]
 
         threshold = 0.65
 
         st.markdown("<hr>", unsafe_allow_html=True)
 
         if prediction_prob > threshold:
-            st.error("❌ Prediction Result: Rejected Cargo")
+            st.error("Prediction Result: Rejected Cargo")
         else:
-            st.success("✅ Prediction Result: Accepted Cargo")
+            st.success("Prediction Result: Accepted Cargo")
 
         st.progress(float(prediction_prob))
 
@@ -337,12 +423,6 @@ if st.session_state.page == "task1":
             "Probability of Rejection",
             f"{prediction_prob:.2%}"
         )
-
-        # =================================================
-        # SHAP FEATURE IMPORTANCE
-        # =================================================
-
-        st.markdown("<br>", unsafe_allow_html=True)
 
         st.markdown("""
         <div class='section-title'>
@@ -381,31 +461,26 @@ if st.session_state.page == "task1":
         ))
 
         fig.update_layout(
-            height=600,
+            height=520,
             plot_bgcolor='#f5f7fb',
             paper_bgcolor='#f5f7fb',
-
-            xaxis=dict(
-                visible=False
-            ),
-
-            yaxis=dict(
-                title=''
-            ),
-
+            xaxis=dict(visible=False),
+            yaxis=dict(title=''),
             margin=dict(
-                l=250,
-                r=50,
-                t=20,
-                b=40
+                l=220,
+                r=30,
+                t=10,
+                b=20
             )
         )
 
-        st.plotly_chart(fig, use_container_width=True)
-
-# =========================================================
-# TASK 2
-# =========================================================
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={
+                "displayModeBar": False
+            }
+        )
 
 # =========================================================
 # TASK 2
@@ -415,7 +490,7 @@ elif st.session_state.page == "task2":
 
     st.markdown("""
     <div class='main-heading'>
-    🛡️ Dangerous Goods Incident Prediction
+    Dangerous Goods Incident Prediction
     </div>
 
     <div class='sub-heading'>
@@ -423,174 +498,146 @@ elif st.session_state.page == "task2":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<hr>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3, gap="medium")
 
-    # =====================================================
-    # INPUT FORM
-    # =====================================================
+    with col1:
 
-    with st.form("prediction_form"):
-
-        col1, col2, col3 = st.columns(3)
-
-        # =================================================
-        # COLUMN 1
-        # =================================================
-
-        with col1:
-
-            st.markdown(
-                "<div class='section-title'>Cargo and Route</div>",
-                unsafe_allow_html=True
-            )
-
-            shc_code = st.selectbox(
-                "SHC Code",
-                sorted(
-                    reference_df["shc_code"]
-                    .astype(str)
-                    .unique()
-                )
-            )
-
-            origin_destination = st.selectbox(
-                "Route",
-                sorted(
-                    reference_df["origin_destination"]
-                    .astype(str)
-                    .unique()
-                )
-            )
-
-            dg_class = st.selectbox(
-                "DG Class",
-                sorted(
-                    reference_df["dg_class"]
-                    .astype(float)
-                    .unique()
-                )
-            )
-
-            packaging_type = st.selectbox(
-                "Packaging Type",
-                sorted(
-                    reference_df["packaging_type"]
-                    .astype(str)
-                    .unique()
-                )
-            )
-
-            weather_condition = st.selectbox(
-                "Weather Condition",
-                sorted(
-                    reference_df["weather_condition"]
-                    .astype(str)
-                    .unique()
-                )
-            )
-
-        # =================================================
-        # COLUMN 2
-        # =================================================
-
-        with col2:
-
-            st.markdown(
-                "<div class='section-title'>Environmental & Time</div>",
-                unsafe_allow_html=True
-            )
-
-            cargo_weight_kg = st.number_input(
-                "Cargo Weight (kg)",
-                min_value=0.0,
-                value=15000.0
-            )
-
-            temperature_celsius = st.number_input(
-                "Temperature (°C)",
-                value=25.0
-            )
-
-            humidity_percentage = st.number_input(
-                "Humidity (%)",
-                min_value=0.0,
-                max_value=100.0,
-                value=50.0
-            )
-
-            shipment_hour = st.slider(
-                "Shipment Hour",
-                0,
-                23,
-                12
-            )
-
-            shipment_day_of_week = st.selectbox(
-                "Shipment Day",
-                options=[0,1,2,3,4,5,6],
-                format_func=lambda x:
-                ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][x]
-            )
-
-            shipment_month = st.slider(
-                "Shipment Month",
-                1,
-                12,
-                5
-            )
-
-        # =================================================
-        # COLUMN 3
-        # =================================================
-
-        with col3:
-
-            st.markdown(
-                "<div class='section-title'>Compliance & History</div>",
-                unsafe_allow_html=True
-            )
-
-            handling_error_count = st.number_input(
-                "Handling Error Count",
-                min_value=0,
-                value=0
-            )
-
-            previous_incident_count = st.number_input(
-                "Previous Incident Count",
-                min_value=0,
-                value=0
-            )
-
-            safety_staff_count = st.number_input(
-                "Safety Staff Count",
-                min_value=0,
-                value=10
-            )
-
-            doc_audit_result = st.radio(
-                "Documentation Audit",
-                options=[1,0],
-                format_func=lambda x:
-                "Pass" if x == 1 else "Fail"
-            )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        submit = st.form_submit_button(
-            "⚡ Run Risk Assessment",
-            use_container_width=True
+        st.markdown(
+            "<div class='section-title'>Cargo and Route</div>",
+            unsafe_allow_html=True
         )
 
-    # =====================================================
-    # PREDICTION SECTION
-    # =====================================================
+        shc_code = st.selectbox(
+            "SHC Code",
+            sorted(
+                reference_df["shc_code"]
+                .astype(str)
+                .unique()
+            )
+        )
+
+        origin_destination = st.selectbox(
+            "Route",
+            sorted(
+                reference_df["origin_destination"]
+                .astype(str)
+                .unique()
+            )
+        )
+
+        dg_class = st.selectbox(
+            "DG Class",
+            sorted(
+                reference_df["dg_class"]
+                .astype(float)
+                .unique()
+            )
+        )
+
+        packaging_type = st.selectbox(
+            "Packaging Type",
+            sorted(
+                reference_df["packaging_type"]
+                .astype(str)
+                .unique()
+            )
+        )
+
+        weather_condition = st.selectbox(
+            "Weather Condition",
+            sorted(
+                reference_df["weather_condition"]
+                .astype(str)
+                .unique()
+            )
+        )
+
+    with col2:
+
+        st.markdown(
+            "<div class='section-title'>Environmental & Time</div>",
+            unsafe_allow_html=True
+        )
+
+        cargo_weight_kg = st.number_input(
+            "Cargo Weight (kg)",
+            min_value=0.0,
+            value=15000.0
+        )
+
+        temperature_celsius = st.number_input(
+            "Temperature (°C)",
+            value=25.0
+        )
+
+        humidity_percentage = st.number_input(
+            "Humidity (%)",
+            min_value=0.0,
+            max_value=100.0,
+            value=50.0
+        )
+
+        shipment_hour = st.slider(
+            "Shipment Hour",
+            0,
+            23,
+            12
+        )
+
+        shipment_day_of_week = st.selectbox(
+            "Shipment Day",
+            options=[0,1,2,3,4,5,6],
+            format_func=lambda x:
+            ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][x]
+        )
+
+
+    with col3:
+
+        st.markdown(
+            "<div class='section-title'>Compliance & History</div>",
+            unsafe_allow_html=True
+        )
+
+        handling_error_count = st.number_input(
+            "Handling Error Count",
+            min_value=0,
+            value=0
+        )
+
+        previous_incident_count = st.number_input(
+            "Previous Incident Count",
+            min_value=0,
+            value=0
+        )
+
+        safety_staff_count = st.number_input(
+            "Safety Staff Count",
+            min_value=0,
+            value=10
+        )
+
+        doc_audit_result = st.radio(
+            "Documentation Audit",
+            options=[1,0],
+            format_func=lambda x:
+            "Pass" if x == 1 else "Fail"
+        )
+        shipment_month = st.slider(
+            "Shipment Month",
+            1,
+            12,
+            5
+        )
+
+    st.markdown("<div style='margin-top:0.5rem'></div>", unsafe_allow_html=True)
+
+    submit = st.button(
+        "Run Risk Assessment",
+        use_container_width=True
+    )
 
     if submit:
-
-        # =================================================
-        # FEATURE ENGINEERING
-        # =================================================
 
         is_critical_mishandling = 1 if (
             int(handling_error_count) > 7
@@ -621,98 +668,32 @@ elif st.session_state.page == "task2":
             and str(shc_code) == "CAO"
         ) else 0
 
-        # =================================================
-        # INPUT DATAFRAME
-        # =================================================
-
         input_dict = {
 
             "shc_code": [str(shc_code)],
-
-            "origin_destination": [
-                str(origin_destination)
-            ],
-
+            "origin_destination": [str(origin_destination)],
             "dg_class": [float(dg_class)],
-
-            "packaging_type": [
-                str(packaging_type)
-            ],
-
-            "handling_error_count": [
-                int(handling_error_count)
-            ],
-
-            "previous_incident_count": [
-                int(previous_incident_count)
-            ],
-
-            "cargo_weight_kg": [
-                float(cargo_weight_kg)
-            ],
-
-            "temperature_celsius": [
-                float(temperature_celsius)
-            ],
-
-            "humidity_percentage": [
-                float(humidity_percentage)
-            ],
-
-            "weather_condition": [
-                str(weather_condition)
-            ],
-
-            "safety_staff_count": [
-                int(safety_staff_count)
-            ],
-
-            "doc_audit_result": [
-                int(doc_audit_result)
-            ],
-
-            "shipment_hour": [
-                int(shipment_hour)
-            ],
-
-            "shipment_day_of_week": [
-                int(shipment_day_of_week)
-            ],
-
-            "shipment_month": [
-                int(shipment_month)
-            ],
-
-            "is_critical_mishandling": [
-                int(is_critical_mishandling)
-            ],
-
-            "is_untrusted_shipper": [
-                int(is_untrusted_shipper)
-            ],
-
-            "climate_shock_risk": [
-                int(climate_shock_risk)
-            ],
-
-            "gas_handling_risk": [
-                int(gas_handling_risk)
-            ],
-
-            "thermal_expansion_risk": [
-                int(thermal_expansion_risk)
-            ],
-
-            "shipper_hazard_combo": [
-                int(shipper_hazard_combo)
-            ],
+            "packaging_type": [str(packaging_type)],
+            "handling_error_count": [int(handling_error_count)],
+            "previous_incident_count": [int(previous_incident_count)],
+            "cargo_weight_kg": [float(cargo_weight_kg)],
+            "temperature_celsius": [float(temperature_celsius)],
+            "humidity_percentage": [float(humidity_percentage)],
+            "weather_condition": [str(weather_condition)],
+            "safety_staff_count": [int(safety_staff_count)],
+            "doc_audit_result": [int(doc_audit_result)],
+            "shipment_hour": [int(shipment_hour)],
+            "shipment_day_of_week": [int(shipment_day_of_week)],
+            "shipment_month": [int(shipment_month)],
+            "is_critical_mishandling": [int(is_critical_mishandling)],
+            "is_untrusted_shipper": [int(is_untrusted_shipper)],
+            "climate_shock_risk": [int(climate_shock_risk)],
+            "gas_handling_risk": [int(gas_handling_risk)],
+            "thermal_expansion_risk": [int(thermal_expansion_risk)],
+            "shipper_hazard_combo": [int(shipper_hazard_combo)],
         }
 
         input_data = pd.DataFrame(input_dict)
-
-        # =================================================
-        # CATBOOST POOL
-        # =================================================
 
         prediction_pool = Pool(
             data=input_data,
@@ -724,10 +705,6 @@ elif st.session_state.page == "task2":
             ]
         )
 
-        # =================================================
-        # PREDICTION
-        # =================================================
-
         try:
 
             raw_prediction = dg_model.predict(
@@ -737,10 +714,6 @@ elif st.session_state.page == "task2":
             risk_score = float(
                 np.clip(raw_prediction, 0.0, 1.0)
             )
-
-            # =============================================
-            # RISK LEVEL
-            # =============================================
 
             if risk_score >= 0.75:
                 risk_level = "HIGH"
@@ -753,140 +726,141 @@ elif st.session_state.page == "task2":
 
             st.markdown("<hr>", unsafe_allow_html=True)
 
-            metric1, metric2, metric3 = st.columns(3)
+            m1, m2, m3 = st.columns(3)
 
-            with metric1:
+            with m1:
                 st.metric(
                     "Risk Score",
                     f"{risk_score:.1%}"
                 )
 
-            with metric2:
+            with m2:
                 st.metric(
                     "Risk Level",
                     risk_level
                 )
 
-            with metric3:
+            with m3:
                 st.metric(
                     "DG Class",
                     dg_class
                 )
 
-            # =============================================
-            # RISK GAUGE
-            # =============================================
+            left, middle, right = st.columns(
+                [1, 1.2, 1.1],
+                gap="medium"
+            )
 
-            st.subheader("Overall Risk Magnitude")
+            with left:
 
-            gauge_fig = go.Figure(
-                go.Indicator(
-                    mode="gauge+number",
+                st.subheader("Overall Risk Magnitude")
 
-                    value=risk_score * 100,
+                gauge_fig = go.Figure(
+                    go.Indicator(
+                        mode="gauge+number",
+                        value=risk_score * 100,
+                        number={'suffix': "%"},
 
-                    number={
-                        'suffix': "%"
-                    },
+                        gauge={
 
-                    gauge={
-
-                        'axis': {
-                            'range': [0,100]
-                        },
-
-                        'bar': {
-                            'thickness': 0.3
-                        },
-
-                        'steps': [
-
-                            {
-                                'range': [0,45],
-                                'color': "#A8E6A3"
+                            'axis': {
+                                'range': [0,100]
                             },
 
-                            {
-                                'range': [45,75],
-                                'color': "#FFD580"
+                            'bar': {
+                                'thickness': 0.3
                             },
 
-                            {
-                                'range': [75,100],
-                                'color': "#FF8A80"
-                            }
-                        ]
+                            'steps': [
+
+                                {
+                                    'range': [0,45],
+                                    'color': "#A8E6A3"
+                                },
+
+                                {
+                                    'range': [45,75],
+                                    'color': "#FFD580"
+                                },
+
+                                {
+                                    'range': [75,100],
+                                    'color': "#FF8A80"
+                                }
+                            ]
+                        }
+                    )
+                )
+
+                gauge_fig.update_layout(
+                    height=320,
+                    margin=dict(
+                        l=10,
+                        r=10,
+                        t=10,
+                        b=10
+                    )
+                )
+
+                st.plotly_chart(
+                    gauge_fig,
+                    use_container_width=True,
+                    config={
+                        "displayModeBar": False
                     }
                 )
-            )
 
-            gauge_fig.update_layout(
-                height=350
-            )
+            with middle:
 
-            st.plotly_chart(
-                gauge_fig,
-                use_container_width=True
-            )
-
-            # =============================================
-            # FEATURE CONTRIBUTION ANALYSIS
-            # =============================================
-
-            st.markdown("<hr>", unsafe_allow_html=True)
-
-            st.subheader(
-                "Feature Contribution Analysis"
-            )
-
-            explainer = shap.TreeExplainer(dg_model)
-
-            shap_values = explainer.shap_values(
-                prediction_pool
-            )
-
-            contribution_df = pd.DataFrame({
-
-                "Feature": input_data.columns,
-
-                "Contribution": np.abs(
-                    shap_values[0]
+                st.subheader(
+                    "Feature Influence on Current Prediction"
                 )
-            })
 
-            total_contribution = (
-                contribution_df["Contribution"]
-                .sum()
-            )
+                explainer = shap.TreeExplainer(dg_model)
 
-            contribution_df[
-                "ContributionPercent"
-            ] = (
+                shap_values = explainer.shap_values(
+                    prediction_pool
+                )
 
-                contribution_df["Contribution"]
-                / total_contribution
+                contribution_df = pd.DataFrame({
 
-            ) * 100
+                    "Feature": input_data.columns,
 
-            contribution_df = contribution_df[
+                    "Contribution": np.abs(
+                        shap_values[0]
+                    )
+                })
+
+                total_contribution = (
+                    contribution_df["Contribution"]
+                    .sum()
+                )
+
                 contribution_df[
                     "ContributionPercent"
-                ] > 0.5
-            ]
+                ] = (
 
-            contribution_df = contribution_df.sort_values(
-                by="Contribution",
-                ascending=True
-            )
+                    contribution_df["Contribution"]
+                    / total_contribution
 
-            if len(contribution_df) > 0:
+                ) * 100
+
+                contribution_df = contribution_df[
+                    contribution_df[
+                        "ContributionPercent"
+                    ] > 0.5
+                ]
+
+                contribution_df = contribution_df.sort_values(
+                    by="Contribution",
+                    ascending=True
+                )
 
                 contribution_fig = px.bar(
 
                     contribution_df,
 
-                    x="Contribution",
-
+                    x="ContributionPercent",
                     y="Feature",
 
                     orientation="h",
@@ -895,98 +869,88 @@ elif st.session_state.page == "task2":
                         "ContributionPercent"
                     ].round(2).astype(str) + "%",
 
-                    height=700,
-
-                    title="Feature Influence on Current Prediction"
+                    height=360
                 )
 
                 contribution_fig.update_traces(
-                    textposition="outside"
+                    textposition="outside",
+                    marker_color="#1f77d0"
                 )
 
                 contribution_fig.update_layout(
 
-                    title_font_size=22,
+                    title="",
 
-                    font_size=14,
+                    font_size=13,
 
                     margin=dict(
-                        l=20,
-                        r=20,
-                        t=60,
-                        b=20
+                        l=10,
+                        r=10,
+                        t=10,
+                        b=10
                     ),
 
-                    xaxis_title="Feature Contribution",
-
+                    xaxis_title="Feature Contribution (%)",
                     yaxis_title="",
-
                     template="simple_white"
                 )
 
                 st.plotly_chart(
                     contribution_fig,
-                    use_container_width=True
+                    use_container_width=True,
+                    config={
+                        "displayModeBar": False
+                    }
                 )
 
-            else:
+            with right:
 
-                st.info(
-                    "No significant feature contributions detected."
+                st.subheader(
+                    "Operational Risk Audit"
                 )
 
-            # =============================================
-            # OPERATIONAL RISK AUDIT
-            # =============================================
+                reasons = []
 
-            st.markdown("<hr>", unsafe_allow_html=True)
+                if is_critical_mishandling:
+                    reasons.append(
+                        "Critical mishandling threshold exceeded."
+                    )
 
-            st.subheader(
-                "Operational Risk Audit"
-            )
+                if gas_handling_risk:
+                    reasons.append(
+                        "Gas handling operational instability detected."
+                    )
 
-            reasons = []
+                if thermal_expansion_risk:
+                    reasons.append(
+                        "Thermal expansion hazard detected."
+                    )
 
-            if is_critical_mishandling:
-                reasons.append(
-                    "Critical mishandling threshold exceeded."
-                )
+                if shipper_hazard_combo:
+                    reasons.append(
+                        "High-risk shipper and CAO combination detected."
+                    )
 
-            if gas_handling_risk:
-                reasons.append(
-                    "Gas handling operational instability detected."
-                )
+                if climate_shock_risk:
+                    reasons.append(
+                        "Climate shock route-temperature condition detected."
+                    )
 
-            if thermal_expansion_risk:
-                reasons.append(
-                    "Thermal expansion hazard detected."
-                )
+                if is_untrusted_shipper:
+                    reasons.append(
+                        "Historical shipper incidents exceed threshold."
+                    )
 
-            if shipper_hazard_combo:
-                reasons.append(
-                    "High-risk shipper and CAO combination detected."
-                )
+                if len(reasons) == 0:
 
-            if climate_shock_risk:
-                reasons.append(
-                    "Climate shock route-temperature condition detected."
-                )
+                    st.success(
+                        "No major operational risk indicators detected."
+                    )
 
-            if is_untrusted_shipper:
-                reasons.append(
-                    "Historical shipper incidents exceed threshold."
-                )
+                else:
 
-            if len(reasons) == 0:
-
-                st.success(
-                    "No major operational risk indicators detected."
-                )
-
-            else:
-
-                for r in reasons:
-                    st.warning(r)
+                    for r in reasons:
+                        st.warning(r)
 
         except Exception as e:
 
