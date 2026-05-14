@@ -501,12 +501,6 @@ elif st.session_state.page == "task2":
     col1, col2, col3 = st.columns(3, gap="medium")
 
     with col1:
-
-        st.markdown(
-            "<div class='section-title'>Cargo and Route</div>",
-            unsafe_allow_html=True
-        )
-
         shc_code = st.selectbox(
             "SHC Code",
             sorted(
@@ -553,12 +547,6 @@ elif st.session_state.page == "task2":
         )
 
     with col2:
-
-        st.markdown(
-            "<div class='section-title'>Environmental & Time</div>",
-            unsafe_allow_html=True
-        )
-
         cargo_weight_kg = st.number_input(
             "Cargo Weight (kg)",
             min_value=0.0,
@@ -593,12 +581,12 @@ elif st.session_state.page == "task2":
 
 
     with col3:
-
-        st.markdown(
-            "<div class='section-title'>Compliance & History</div>",
-            unsafe_allow_html=True
+        shipment_month = st.slider(
+            "Shipment Month",
+            1,
+            12,
+            5
         )
-
         handling_error_count = st.number_input(
             "Handling Error Count",
             min_value=0,
@@ -622,12 +610,6 @@ elif st.session_state.page == "task2":
             options=[1,0],
             format_func=lambda x:
             "Pass" if x == 1 else "Fail"
-        )
-        shipment_month = st.slider(
-            "Shipment Month",
-            1,
-            12,
-            5
         )
 
     st.markdown("<div style='margin-top:0.5rem'></div>", unsafe_allow_html=True)
