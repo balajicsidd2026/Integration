@@ -244,7 +244,7 @@ if st.session_state.page == "task1":
 
         xray_scan_result = st.selectbox(
             "X-Ray Scan Result",
-            ['Clear', 'Suspicious','','Restricted Item Detected','Manual Review Required']
+            ['Clear', 'Suspicious','Restricted Item Detected','Manual Review Required']
         )
 
         shipment_priority = st.selectbox(
