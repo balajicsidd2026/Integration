@@ -426,6 +426,9 @@ if st.session_state.page == "task1":
             "Importance": feature_impact
 
         })
+        total_importance = importance_df["Importance"].sum()
+
+        importance_df["Importance"] = (importance_df["Importance"]/ total_importance)* 100
 
         importance_df = importance_df.sort_values(
             by="Importance",
@@ -436,14 +439,14 @@ if st.session_state.page == "task1":
 
         fig.add_trace(go.Bar(
 
-            x=importance_df["Importance"],
+            x=importance_df["Importance"].round(1),
 
             y=importance_df["Feature"],
 
             orientation='h',
 
             text=[
-                f"{round(x,2)}"
+                f"{round(x,1)}%"
                 for x in importance_df["Importance"]
             ],
 
