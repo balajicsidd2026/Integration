@@ -750,11 +750,11 @@ elif st.session_state.page == "task2":
                 risk_level
             )
 
-        with metric3:
-            st.metric(
-                "DG Class",
-                dg_class
-            )
+        # with metric3:
+        #     st.metric(
+        #         "DG Class",
+        #         dg_class
+        #     )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
