@@ -124,11 +124,6 @@ div.stButton > button:hover {
         0px 14px 35px rgba(0,0,0,0.10);
     border: 1px solid #dce3f2;
 }
-div.stButton > button p {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    color: #0b1f5e !important;
-}
 
 div[data-baseweb="select"] > div,
 .stNumberInput > div > div > input {
