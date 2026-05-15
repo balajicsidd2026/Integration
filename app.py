@@ -401,12 +401,6 @@ if st.session_state.page == "task1":
             st.success("Prediction Result: Accepted Cargo")
 
         st.progress(float(prediction_prob))
-        
-        st.metric(
-            "Probability of Rejection",
-            f"{prediction_prob:.2%}"
-        )
-
 
         # =================================================
         # FEATURE ANALYSIS
