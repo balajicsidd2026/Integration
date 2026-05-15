@@ -279,7 +279,7 @@ if st.session_state.page == "task1":
 
         consignee_name = st.selectbox(
             "Consignee Name",
-            ['Gulf Fresh Foods', 'Al Jazeera Trading']
+            ['Gulf Fresh Foods', 'Al Jazeera Trading','Blue Dart',]
         )
 
         shipper_type = st.selectbox(
@@ -316,7 +316,7 @@ if st.session_state.page == "task1":
         cargo_weight_kg = st.number_input(
             "Cargo Weight (kg)",
             min_value=0.0,
-            value=100.0
+            value=132.00
         )
 
         damage_history_count = st.number_input(
