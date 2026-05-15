@@ -252,12 +252,12 @@ if st.session_state.page == "task1":
 
         SHC = st.selectbox(
             "SHC",
-            ['DGR', 'PER', 'AVI', 'VAL', 'PIL', 'COL', 'HUM']
+            ['PIL','DGR', 'PER', 'AVI', 'VAL', 'COL', 'HUM']
         )
 
         origin = st.selectbox(
             "Origin",
-            ['HAM', 'DXB', 'MAA', 'OSL', 'AMS', 'JFK', 'MXP', 'FRA', 'PVG']
+            ['DXB','HAM', 'MAA', 'OSL', 'AMS', 'JFK', 'MXP', 'FRA', 'PVG']
         )
 
         destination = st.selectbox(
@@ -283,17 +283,17 @@ if st.session_state.page == "task1":
 
         shipper_company_name = st.selectbox(
             "Shipper Company",
-            ['DB Schenker', 'FedEx', 'DHL', 'Maersk']
+            ['Aramex','DB Schenker', 'FedEx', 'DHL', 'Maersk']
         )
 
         consignee_name = st.selectbox(
             "Consignee Name",
-            ['Gulf Fresh Foods', 'Al Jazeera Trading','Blue Dart',]
+            ['Arabian Medical Supply','Saudi Pharma Ltd','Gulf Fresh Foods', 'Al Jazeera Trading','Blue Dart',]
         )
 
         shipper_type = st.selectbox(
             "Shipper Type",
-            ['Corporate', 'Retail', 'Agent']
+            ['Retail','Corporate','Agent']
         )
 
         documentation_status = st.selectbox(
@@ -314,7 +314,7 @@ if st.session_state.page == "task1":
 
         xray_scan_result = st.selectbox(
             "X-Ray Scan Result",
-            ['Clear', 'Suspicious']
+            ['Clear', 'Suspicious','Restricted Item Detected']
         )
 
         shipment_priority = st.selectbox(
@@ -325,7 +325,7 @@ if st.session_state.page == "task1":
         cargo_weight_kg = st.number_input(
             "Cargo Weight (kg)",
             min_value=0.0,
-            value=132.00
+            value=24777.00
         )
 
         damage_history_count = st.number_input(
