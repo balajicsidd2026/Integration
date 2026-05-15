@@ -103,21 +103,31 @@ header {
 
 div.stButton > button {
     width: 100%;
-    height: 82px;
-    border-radius: 18px;
+    height: 105px;
+    border-radius: 28px;
     border: none;
-    font-size: 19px;
-    font-weight: 600;
-    background-color:#0b1f5e;
-    color: white;
+    background: white;
+    color: #0b1f5e;
+    font-size: 22px;
+    font-weight: 700;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    box-shadow:
+        0px 10px 30px rgba(0,0,0,0.06),
+        inset 0px 1px 0px rgba(255,255,255,0.8);
 }
 
 div.stButton > button:hover {
-    background-color:#0b1f6e;
-    transform: translateY(-2px);
-    color: white;
+    transform: translateY(-3px);
+    background: #ffffff;
+    color: #1240bd;
+    box-shadow:
+        0px 14px 35px rgba(0,0,0,0.10);
+    border: 1px solid #dce3f2;
+}
+div.stButton > button p {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #0b1f5e !important;
 }
 
 div[data-baseweb="select"] > div,
